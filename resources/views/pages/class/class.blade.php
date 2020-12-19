@@ -7,7 +7,7 @@
 @section('content')
     <div class="container-fluid user-dashboard my-5">
         <div class="row mx-3">
-            <div class="col-12 col-lg-3">
+            <div class="col-3">
                 {{-- sidebar menu --}}
                 <div class="card sidebar">
                     <div class="card-header bg-primary">
@@ -15,12 +15,12 @@
                     </div>
                     <div class="card-body mx-3">
                         <ul>
-                            <li class="active">
+                            <li class="">
                                 <a href="http://">
                                     <i class="fas fa-angle-double-right"></i> Dashboard
                                 </a>
                             </li>
-                            <li class="">
+                            <li class="active">
                                 <a href="http://">
                                     <i class="fas fa-angle-double-right"></i> Classes
                                 </a>
@@ -39,11 +39,11 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-lg-6">
+            <div class="col-6">
                 {{-- class table --}}
                 <div class="card table-data">
                     <div class="card-header bg-primary">
-                        Statistics
+                        Classes Table
                     </div>
                     <div class="card-body">
                         <div class="row d-flex align-items-center justify-content-between mb-3">
@@ -92,7 +92,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-lg-3">
+            <div class="col-3">
                 {{-- profile action: edit name, change password --}}
                 <div class="card profile-setting">
                     <div class="card-header bg-primary">
