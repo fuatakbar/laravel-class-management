@@ -1,0 +1,17 @@
+.btn-primary {
+    background-color: $medium_blue;
+    border: 1px solid white;
+
+    &:hover {
+        background-color: $dark_blue;
+        border: 1px solid $grey;
+    }
+}
+
+.btn-secondary {
+    @extend .btn-primary;
+    background-color: $dark_blue;
+    &:hover {
+        background-color: $medium_blue;
+    }
+}
