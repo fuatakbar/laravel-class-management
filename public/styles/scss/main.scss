@@ -48,11 +48,30 @@ a {
         @extend .sidebar;
     }
 
+    .statistic {
+        .total {
+            font-size: 23px;
+            font-weight: 600;
+        }
+    }
+}
+
+.class-area {
+    @extend .user-dashboard;
+
     .table-data {
         tbody > tr > td {
             vertical-align: middle;
         }
     }
+}
+
+.student-area {
+    @extend .class-area;
+}
+
+.teacher-area {
+    @extend .class-area;
 }
 // end content section
 

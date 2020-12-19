@@ -15,3 +15,13 @@
         background-color: $medium_blue;
     }
 }
+
+.btn-grey {
+    @extend .btn-primary;
+    color: #000;
+    background-color: $grey;
+    &:hover {
+        background-color: #fff;
+        color: $medium_blue;
+    }
+}

@@ -11,10 +11,13 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/dashboard', function () {
     return view('pages.index');
-});
+})->name('dashboard');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// resource route
+Route::resource('/class', ClassController::class);
+Route::resource('/teacher', TeacherController::class);
+Route::resource('/student', StudentController::class);
