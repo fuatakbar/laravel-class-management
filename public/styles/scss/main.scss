@@ -13,6 +13,7 @@ a {
 }
 
 // content section
+
 .user-dashboard {
     .sidebar {
         .active {
@@ -73,6 +74,13 @@ a {
 .teacher-area {
     @extend .class-area;
 }
+
+// auth area
+.login-area {
+    margin-top: 150px;
+    margin-bottom: 150px;
+}
+
 // end content section
 
 footer {

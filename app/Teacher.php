@@ -11,6 +11,6 @@ class Teacher extends Model
     ];
 
     public function class(){
-        $this->hasMany('App\Class');
+        return $this->hasMany(ClassModel::class);
     }
 }

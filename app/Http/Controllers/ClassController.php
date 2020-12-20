@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 // models
-use App\Classes;
+use App\ClassModel;
 use App\Teacher;
 
 class ClassController extends Controller
@@ -17,7 +17,9 @@ class ClassController extends Controller
      */
     public function index()
     {
-        return view('pages.class.index');
+        $classes = ClassModel::orderBy('name', 'asc')->with('teacher')->paginate(10);
+        $teachers = Teacher::orderBy('name', 'asc')->get();
+        return view('pages.class.index', compact('classes', 'teachers'));
     }
 
     /**
@@ -38,7 +40,19 @@ class ClassController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // define data to store
+        $data = [
+            'name' => $request->name,
+            'teacher_id' => $request->teacher_id
+        ];
+
+        $store = ClassModel::create($data);
+
+        if ($store) {
+            return redirect()->back()->with(['message' => 'Class Created SUCCESSFULLY']);
+        } else {
+            return redirect()->back()->with(['message' => 'FAILED to Create Class']);
+        }
     }
 
     /**
@@ -60,7 +74,9 @@ class ClassController extends Controller
      */
     public function edit($id)
     {
-        return view('pages.class.edit');
+        $class = ClassModel::where('id', $id)->with('teacher')->firstOrFail();
+        $teachers = Teacher::orderBy('name', 'asc')->get();
+        return view('pages.class.edit', compact('class', 'teachers'));
     }
 
     /**
@@ -72,7 +88,21 @@ class ClassController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'teacher_id' => 'required'
+        ]);
+
+        $class = ClassModel::where('id', $id)->firstOrFail();
+        $class->name = $request->name;
+        $class->teacher_id = $request->teacher_id;
+        $update = $class->save();
+ 
+        if ($update) {
+            return redirect()->route('class.index')->with(['message' => 'Class Changed SUCCESSFULLY']);
+        } else {
+            return redirect()->route('class.index')->with(['message' => 'Failed to Change Class Data']);
+        }
     }
 
     /**
@@ -83,6 +113,13 @@ class ClassController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $class = ClassModel::where('id', $id)->firstOrFail();
+        $delete = $class->delete();
+
+        if ($delete) {
+            return redirect()->route('class.index')->with(['message' => 'Class Deleted SUCCESSFULLY']);
+        } else {
+            return redirect()->route('class.index')->with(['message' => 'FAILED to Delete This Class']);
+        }
     }
 }

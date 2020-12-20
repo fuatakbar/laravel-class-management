@@ -11,13 +11,16 @@
         <div class="navbar-nav">
             <ul class="navbar-nav mr-auto">
                 <div class="row justify-content-end mt-4 mb-3 ml-1 d-lg-none d-block">
-                    <div class="col-12 text-center">
-                        <a href="#">
-                            <button class="btn btn-primary">
-                                Logout
-                            </button>
-                        </a>
-                    </div>
+                    @auth
+                    <form action="{{route('logout')}}" method="post">
+                    @csrf
+                    @method('POST')
+            
+                        <button type="submit" class="btn btn-primary">
+                            Logout
+                        </button>
+                    </form>
+                    @endauth
                 </div>
             </ul>
         </div>
@@ -25,11 +28,16 @@
 
     {{-- logout button desktop --}}
     <div class="col-12 col-lg-6 text-right d-none d-lg-block">
-        <span class="text-white pr-3">Welcome, Fuat as User </span>
-        <a href="http://">
-            <button class="btn btn-primary">
-                Logout
-            </button>
-        </a>
+        <form action="{{route('logout')}}" method="post">
+        @csrf
+        @method('POST')
+            @auth
+                <span class="text-white pr-3">Welcome, {{Auth::user()->name}} as User </span>
+
+                <button type="submit" class="btn btn-primary">
+                    Logout
+                </button>
+            @endauth
+        </form>
     </div>
 </nav>

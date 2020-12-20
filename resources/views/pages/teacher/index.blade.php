@@ -43,22 +43,28 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>Ali Muhammad</td>
-                                                <td>25</td>
-                                                <td>Male</td>
-                                                <td>Jl. Tanjung Barat Lama</td>
-                                                <td>
-                                                    {{-- edit button --}}
-                                                    <a href="{{route('teacher.edit', [1])}}" class="pr-1">
-                                                        <button class="btn btn-secondary py-1 px-2"><i class="fas fa-cog"></i></button>
-                                                    </a>
-                                                    {{-- delete button --}}
-                                                    <a href="#" onclick="return confirm('Are you sure to delete this class?')">
-                                                        <button class="btn btn-danger py-1 px-2"><i class="fas fa-trash-alt"></i></button>
-                                                    </a>
+                                            @forelse ($teachers as $t)
+                                                <tr>
+                                                    <td>Ali Muhammad</td>
+                                                    <td>25</td>
+                                                    <td>Male</td>
+                                                    <td>Jl. Tanjung Barat Lama</td>
+                                                    <td>
+                                                        {{-- edit button --}}
+                                                        <a href="{{route('teacher.edit', [1])}}" class="pr-1">
+                                                            <button class="btn btn-secondary py-1 px-2"><i class="fas fa-cog"></i></button>
+                                                        </a>
+                                                        {{-- delete button --}}
+                                                        <a href="#" onclick="return confirm('Are you sure to delete this class?')">
+                                                            <button class="btn btn-danger py-1 px-2"><i class="fas fa-trash-alt"></i></button>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @empty
+                                                <td colspan="6" class="text-center">
+                                                    Empty Data
                                                 </td>
-                                            </tr>
+                                            @endforelse
                                         </tbody>
                                     </table>
                                 </div>
@@ -113,7 +119,7 @@
                 <div class="modal-footer">
                 <button type="button" class="btn btn-grey" data-dismiss="modal">
                     Close</button>
-                <button type="submit" class="btn btn-secondary">Save changes</button>
+                <button type="submit" class="btn btn-secondary">Submit</button>
             </div>
         </div>
         </div>

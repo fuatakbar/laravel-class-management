@@ -39,17 +39,23 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <form action="#" method="post">
+                                            <form action="{{route("class.update", [$class->id])}}" method="post">
                                                 @csrf
                                                 @method('PUT')
 
                                                 <tr class="text-center">
                                                     <td>
-                                                        <input class="form-control" type="text" name="name" id="name" required value="{{old('name')}}">
+                                                        <input class="form-control" type="text" name="name" id="name" required value="{{$class->name}}">
                                                     </td>
                                                     <td>
                                                         <select class="form-control" name="teacher_id" id="teacher_id">
-                                                            <option value="id">Teacher Name</option>
+                                                            @if (isset($teachers))
+                                                                @foreach ($teachers as $t)
+                                                                    <option value="{{$t->id}}" {{$t->id == $class->teacher->id ? 'selected' : ''}}>{{$t->name}}</option>
+                                                                @endforeach
+                                                            @else
+                                                                <option value="">Empty Teacher</option>
+                                                            @endif
                                                         </select>
                                                     </td>
                                                     <td>

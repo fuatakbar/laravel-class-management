@@ -11,13 +11,31 @@
 |
 */
 
-Route::get('/dashboard', function () {
-    return view('pages.index');
-})->name('dashboard');
-
 Auth::routes();
 
-// resource route
-Route::resource('/class', ClassController::class);
-Route::resource('/teacher', TeacherController::class);
-Route::resource('/student', StudentController::class);
+Route::get('/', function(){
+    return redirect()->route('login');
+});
+
+Route::middleware(['auth'])
+    ->group(function(){
+
+    // dashboard route 
+    Route::get('/dashboard', 'HomeController@index')
+        ->name('dashboard');
+
+    // user controller
+    Route::post('/user/change-name', 'UserController@changeName')
+        ->name('user.change.name');
+
+    Route::post('/user/change-password', 'UserController@changePassword')
+        ->name('user.change.password');
+
+    // resource route
+    Route::resource('/class', ClassController::class);
+    Route::resource('/teacher', TeacherController::class);
+    Route::resource('/student', StudentController::class);
+
+    });
+
+

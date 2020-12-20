@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+// models
+use App\Teacher;
+
 class TeacherController extends Controller
 {
     /**
@@ -13,7 +16,8 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        return view('pages.teacher.index');
+        $teachers = Teacher::orderBy('name', 'asc')->paginate(10);
+    return view('pages.teacher.index', compact('teachers'));
     }
 
     /**

@@ -27,6 +27,9 @@
         @yield('content')
     </main>
 
+    {{-- notification modal --}}
+    @include('includes.notification-modal')
+
     <footer>
         @include('includes.footer')
     </footer>

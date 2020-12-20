@@ -14,11 +14,11 @@ class ClassModel extends Model
 
     // class has one teacher
     public function teacher(){
-        $this->hasOne(Teacher::class, 'id', 'teacher_id');
+        return $this->hasOne(Teacher::class, 'id', 'teacher_id')->select('name', 'id');
     }
 
     // class can has more than one student (many)
     public function student(){
-        $this->hasMany(Student::class, 'class_id', 'id');
+        return $this->hasMany(Student::class, 'class_id', 'id');
     }
 }
