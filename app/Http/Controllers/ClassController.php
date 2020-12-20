@@ -17,7 +17,7 @@ class ClassController extends Controller
      */
     public function index()
     {
-        $classes = ClassModel::orderBy('name', 'asc')->with('teacher')->paginate(10);
+        $classes = ClassModel::orderBy('name', 'asc')->with('teacher')->paginate(8);
         $teachers = Teacher::orderBy('name', 'asc')->get();
         return view('pages.class.index', compact('classes', 'teachers'));
     }

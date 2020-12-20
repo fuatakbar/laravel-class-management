@@ -41,25 +41,25 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <form action="#" method="post">
+                                            <form action="{{route('teacher.update', [$teacher->id])}}" method="post">
                                                 @csrf
                                                 @method('PUT')
 
                                                 <tr class="text-center">
                                                     <td>
-                                                        <input class="form-control" type="text" name="name" id="name" required value="{{old('name')}}">
+                                                        <input class="form-control" type="text" name="name" id="name" required value="{{$teacher->name}}">
                                                     </td>
                                                     <td>
-                                                        <input class="form-control" type="number" name="age" id="age" required min="18" max="50">
+                                                        <input class="form-control" type="number" name="age" id="age" required min="18" max="50" value="{{$teacher->age}}">
                                                     </td>
                                                     <td>
                                                         <select class="form-control" name="gender" id="gender">
-                                                            <option value="Male">Male</option>
-                                                            <option value="Female">Female</option>
+                                                            <option value="Male" {{$teacher->gender == 'Male' ? 'selected' : ''}}>Male</option>
+                                                            <option value="Female" {{$teacher->gender == 'Female' ? 'selected' : ''}}>Female</option>
                                                         </select>
                                                     </td>
                                                     <td>
-                                                        <input class="form-control" type="text" name="address" id="address" required value="{{old('address')}}">
+                                                        <input class="form-control" type="text" name="address" id="address" required value="{{$teacher->address}}">
                                                     </td>
                                                     <td>
                                                         <button class="btn btn-block btn-secondary" type="submit">

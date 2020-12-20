@@ -67,6 +67,7 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                {{$classes->links()}}
                             </div>
                         </div>
                     </div>

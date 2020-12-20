@@ -16,7 +16,7 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        $teachers = Teacher::orderBy('name', 'asc')->paginate(10);
+        $teachers = Teacher::orderBy('name', 'asc')->paginate(8);
     return view('pages.teacher.index', compact('teachers'));
     }
 
@@ -38,7 +38,21 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // define data to store
+        $data = [
+            'name' => $request->name,
+            'address' => $request->address,
+            'age' => $request->age,
+            'gender' => $request->gender
+        ];
+
+        $store = Teacher::create($data);
+
+        if ($store) {
+            return redirect()->back()->with(['message' => 'Teacher Added SUCCESSFULLY']);
+        } else {
+            return redirect()->back()->with(['message' => 'FAILED to Add Teacher']);
+        }
     }
 
     /**
@@ -60,7 +74,8 @@ class TeacherController extends Controller
      */
     public function edit($id)
     {
-        return view('pages.teacher.edit');
+        $teacher = Teacher::where('id', $id)->firstOrFail();
+        return view('pages.teacher.edit', compact('teacher'));
     }
 
     /**
@@ -72,7 +87,25 @@ class TeacherController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'address' => 'required',
+            'gender' => 'required',
+            'age' => 'required'
+        ]);
+
+        $teacher = Teacher::where('id', $id)->firstOrFail();
+        $teacher->name = $request->name;
+        $teacher->address = $request->address;
+        $teacher->gender = $request->gender;
+        $teacher->age = $request->age;
+        $update = $teacher->save();
+ 
+        if ($update) {
+            return redirect()->route('teacher.index')->with(['message' => 'Teacher Changed SUCCESSFULLY']);
+        } else {
+            return redirect()->route('teacher.index')->with(['message' => 'Failed to Change Teacher Data']);
+        }
     }
 
     /**
@@ -83,6 +116,13 @@ class TeacherController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $teacher = Teacher::where('id', $id)->firstOrFail();
+        $delete = $teacher->delete();
+
+        if ($delete) {
+            return redirect()->route('teacher.index')->with(['message' => 'Teacher Deleted SUCCESSFULLY']);
+        } else {
+            return redirect()->route('teacher.index')->with(['message' => 'FAILED to Delete This Teacher']);
+        }
     }
 }
