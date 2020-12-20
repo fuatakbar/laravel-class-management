@@ -17,7 +17,7 @@ class TeacherController extends Controller
     public function index()
     {
         $teachers = Teacher::orderBy('name', 'asc')->paginate(8);
-    return view('pages.teacher.index', compact('teachers'));
+        return view('pages.teacher.index', compact('teachers'));
     }
 
     /**

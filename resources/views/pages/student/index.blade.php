@@ -43,25 +43,35 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>Fuat Akbar</td>
-                                                <td>18</td>
-                                                <td>Male</td>
-                                                <td>Algoritma & Pemrograman</td>
-                                                <td>
-                                                    {{-- edit button --}}
-                                                    <a href="{{route('student.edit', [1])}}" class="pr-1">
-                                                        <button class="btn btn-secondary py-1 px-2"><i class="fas fa-cog"></i></button>
-                                                    </a>
-                                                    {{-- delete button --}}
-                                                    <a href="#" onclick="return confirm('Are you sure to delete this class?')">
-                                                        <button class="btn btn-danger py-1 px-2"><i class="fas fa-trash-alt"></i></button>
-                                                    </a>
+                                            @forelse ($students as $s)
+                                                <tr>
+                                                    <td>{{$s->name}}</td>
+                                                    <td>{{$s->age}}</td>
+                                                    <td>{{$s->gender}}</td>
+                                                    <td>{{$s->class != null ? $s->class->name : 'Unselected'}}</td>
+                                                    <td>
+                                                        {{-- edit button --}}
+                                                        <a href="{{route('student.edit', [$s->id])}}" class="pr-1">
+                                                            <button class="btn btn-secondary py-1 px-2"><i class="fas fa-cog"></i></button>
+                                                        </a>
+                                                        {{-- delete button --}}
+                                                        <form class="d-inline" action="{{route('student.destroy', [$s->id])}}" method="post">
+                                                            @csrf
+                                                            @method('DELETE')
+
+                                                            <button class="btn btn-danger py-1 px-2" onclick="return confirm('Are you sure want to delete this student?')"><i class="fas fa-trash-alt"></i></button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @empty
+                                                <td colspan="5" class="text-center">
+                                                    Empty Data
                                                 </td>
-                                            </tr>
+                                            @endforelse
                                         </tbody>
                                     </table>
                                 </div>
+                                {{$students->links()}}
                             </div>
                         </div>
                     </div>
@@ -74,49 +84,54 @@
     <div class="modal fade" id="addNewStudentModal" tabindex="-1" role="dialog" aria-labelledby="addNewStudentModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-primary">
-                <h5 class="modal-title" id="exampleModalLongTitle">Add New Student</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true" class="text-white">&times;</span>
-                </button>
-                </div>
-
-                <form action="#" method="post">
-                @csrf
-                @method('POST')
-                    <div class="modal-body">
-                        <div class="form-group mb-3">
-                            <label for="name">Student's Name</label>
-                            <input class="form-control" type="text" name="name" id="name" required>
-                        </div>
-
-                        <div class="form-group mb-3">
-                            <label for="age">Age</label>
-                            <input class="form-control" type="number" name="age" id="age" required min="18" max="50">
-                        </div>
-
-                        <div class="form-group mb-3">
-                            <label for="gender">Gender</label>
-                            <select class="form-control" name="gender" id="gender">
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group mb-3">
-                            <label for="class_id">Choose Class<sup>(Optional)</sup></label>
-                            <select class="form-control" name="class_id" id="class_id">
-                                <option value="id">Class Name</option>
-                            </select>
-                        </div>
+            <form action="{{route('student.store')}}" method="post">
+            @csrf
+            @method('POST')
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Add New Student</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="text-white">&times;</span>
+                    </button>
                     </div>
-                </form>
+                        <div class="modal-body">
+                            <div class="form-group mb-3">
+                                <label for="name">Student's Name</label>
+                                <input class="form-control" type="text" name="name" id="name" required>
+                            </div>
 
-                <div class="modal-footer">
-                <button type="button" class="btn btn-grey" data-dismiss="modal">
-                    Close</button>
-                <button type="submit" class="btn btn-secondary">Submit</button>
-            </div>
+                            <div class="form-group mb-3">
+                                <label for="age">Age</label>
+                                <input class="form-control" type="number" name="age" id="age" required min="18" max="50">
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="gender">Gender</label>
+                                <select class="form-control" name="gender" id="gender">
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="class_id">Choose Class<sup>(Optional)</sup></label>
+                                <select class="form-control" name="class_id" id="class_id">
+                                    @if (isset($classes))
+                                        @foreach ($classes as $c)
+                                            <option value="{{$c->id}}">{{$c->name}}</option>
+                                        @endforeach
+                                    @else
+                                        <option value="">Empty Class</option>
+                                    @endif
+                                </select>
+                            </div>
+                        </div>
+
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-grey" data-dismiss="modal">
+                        Close</button>
+                    <button type="submit" class="btn btn-secondary">Submit</button>
+                </div>
+            </form>
         </div>
         </div>
     </div>

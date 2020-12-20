@@ -41,26 +41,35 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <form action="#" method="post">
+                                            <form action="{{route('student.update', [$student->id])}}" method="post">
                                                 @csrf
                                                 @method('PUT')
 
                                                 <tr class="text-center">
                                                     <td>
-                                                        <input class="form-control" type="text" name="name" id="name" required value="{{old('name')}}">
+                                                        <input class="form-control" type="text" name="name" id="name" required value="{{$student->name}}">
                                                     </td>
                                                     <td>
-                                                        <input class="form-control" type="number" name="age" id="age" required min="18" max="50">
+                                                        <input class="form-control" type="number" name="age" id="age" required min="18" max="50" value="{{$student->age}}">
                                                     </td>
                                                     <td>
                                                         <select class="form-control" name="gender" id="gender">
-                                                            <option value="Male">Male</option>
-                                                            <option value="Female">Female</option>
+                                                            <option value="Male" {{$student->gender == 'Male' ? 'selected' : ''}}>Male</option>
+                                                            <option value="Female" {{$student->gender == 'Female' ? 'selected' : ''}}>Female</option>
                                                         </select>
                                                     </td>
                                                     <td>
                                                         <select class="form-control" name="class_id" id="class_id">
-                                                            <option value="id">Class Name</option>
+                                                            @if ($student->class == null)
+                                                                <option value="" selected>Unselected</option>
+                                                            @endif
+                                                            @if (isset($classes))
+                                                                @foreach ($classes as $c)
+                                                                    <option value="{{$c->id}}" {{$c->id == $student->class_id ? 'selected' : ''}}>{{$c->name}}</option>
+                                                                @endforeach
+                                                            @else
+                                                                <option value="">Empty Class</option>
+                                                            @endif
                                                         </select>
                                                     </td>
                                                     <td>

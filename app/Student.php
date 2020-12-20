@@ -11,6 +11,6 @@ class Student extends Model
     ];
 
     public function class(){
-        return $this->belongsTo('App\Class');
+        return $this->belongsTo(ClassModel::class, 'class_id', 'id')->select('name', 'id');
     }
 }

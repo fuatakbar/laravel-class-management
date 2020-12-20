@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+// models
+use App\Student;
+use App\ClassModel;
+
 class StudentController extends Controller
 {
     /**
@@ -13,7 +17,9 @@ class StudentController extends Controller
      */
     public function index()
     {
-        return view('pages.student.index');
+        $students = Student::orderBy('name', 'asc')->with('class')->paginate(8);
+        $classes = ClassModel::orderBy('name', 'asc')->get();
+        return view('pages.student.index', compact('students', 'classes'));
     }
 
     /**
@@ -34,7 +40,21 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // define data to store
+        $data = [
+            'name' => $request->name,
+            'class_id' => $request->class_id,
+            'age' => $request->age,
+            'gender' => $request->gender
+        ];
+
+        $store = Student::create($data);
+
+        if ($store) {
+            return redirect()->back()->with(['message' => 'Student Added SUCCESSFULLY']);
+        } else {
+            return redirect()->back()->with(['message' => 'FAILED to Add Student']);
+        }
     }
 
     /**
@@ -56,7 +76,9 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
-        return view('pages.student.edit');
+        $student = Student::where('id', $id)->firstOrFail();
+        $classes = ClassModel::orderBy('name', 'asc')->get();
+        return view('pages.student.edit', compact('student', 'classes'));
     }
 
     /**
@@ -68,7 +90,24 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'gender' => 'required',
+            'age' => 'required'
+        ]);
+
+        $student = Student::where('id', $id)->firstOrFail();
+        $student->name = $request->name;
+        $student->gender = $request->gender;
+        $student->age = $request->age;
+        $student->class_id = $request->class_id;
+        $update = $student->save();
+ 
+        if ($update) {
+            return redirect()->route('student.index')->with(['message' => 'Student Changed SUCCESSFULLY']);
+        } else {
+            return redirect()->route('student.index')->with(['message' => 'Failed to Change Student Data']);
+        }
     }
 
     /**
@@ -79,6 +118,13 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $student = Student::where('id', $id)->firstOrFail();
+        $delete = $student->delete();
+
+        if ($delete) {
+            return redirect()->route('student.index')->with(['message' => 'Student Deleted SUCCESSFULLY']);
+        } else {
+            return redirect()->route('student.index')->with(['message' => 'FAILED to Delete This Student']);
+        }
     }
 }
