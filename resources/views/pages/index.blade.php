@@ -22,7 +22,7 @@
                             <div class="col-12 col-lg-4 text-center">
                                 <div class="card bg">
                                     <div class="card-header bg-secondary">
-                                        Total Class
+                                        Total Classes
                                     </div>
                                     <div class="card-body total">
                                         {{$total_class}}
@@ -32,7 +32,7 @@
                             <div class="col-12 col-lg-4 text-center">
                                 <div class="card bg">
                                     <div class="card-header bg-secondary">
-                                        Total Teacher
+                                        Total Teachers
                                     </div>
                                     <div class="card-body total">
                                         {{$total_teacher}}
